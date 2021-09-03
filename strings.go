@@ -5,9 +5,9 @@ import (
 	"strconv"
 )
 
-func coalesce(value, fallback string) string {
-	if value == "" {
-		return fallback
+func coalesce(value string, fallback ...string) string {
+	if value == "" && len(fallback) > 0 {
+		coalesce(fallback[0], fallback[1:]...)
 	}
 	return value
 }
