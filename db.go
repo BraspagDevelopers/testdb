@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	DefaultUsername = ""
+	DefaultUsername = "sa"
 	DefaultPassword = ""
 )
 
@@ -22,6 +22,7 @@ type DBOptions struct {
 
 func (o *DBOptions) connect() (*sql.DB, error) {
 	query := url.Values{}
+	query.Add("database", o.Database)
 	if o.ApplicationName != "" {
 		query.Add("app name", o.ApplicationName)
 	}
@@ -32,5 +33,6 @@ func (o *DBOptions) connect() (*sql.DB, error) {
 		Host:     o.Server,
 		RawQuery: query.Encode(),
 	}
-	return sql.Open("sqlserver", connectionString.String())
+	urlString := connectionString.String()
+	return sql.Open("sqlserver", urlString)
 }
